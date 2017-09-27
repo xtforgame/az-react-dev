@@ -1,4 +1,4 @@
-# AzDevBase
+# AzServerDev
 
 A general purpose seed project base
 

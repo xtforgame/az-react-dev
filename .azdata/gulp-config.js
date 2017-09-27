@@ -6,17 +6,38 @@ var config = {
   projRoot: projRoot,
   base: projRoot,
   submodules: {
-    library: {
-      prefix: 'library',
+    commonLibrary: {
+      prefix: 'common',
       entry: {
-        dir: 'src/library',
+        dir: 'src/common',
         js: {
           glob: '**/*.js',
         },
       },
       output: {
         default: {
-          dir: 'dist/library',
+          js: {},
+        },
+      },
+    },
+    server: {
+      prefix: 'server',
+      useCommonLibrary: {
+        relativePath: 'common'
+      },
+      reloadDelay: 1500,
+      entry: {
+        dir: 'src/server',
+        js: {
+          glob: '**/*.js',
+        },
+      },
+      output: {
+        default: {
+          dir: 'dist/server',
+          js: {
+            filename: 'index.js',
+          },
         },
         //dev: {},
         //dist: {},

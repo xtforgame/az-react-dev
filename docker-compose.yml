@@ -1,0 +1,17 @@
+version: '3'
+services:
+  webserver:
+    image: seed-proj/webserver
+    build:
+      context: .
+
+    container_name: webserver-${CONTAINER_POSTFIX:-default}
+
+    volumes:
+      - ".:/usr/volumns/src/"
+
+    command: bash docker-cmd.sh
+
+    ports:
+      - "443:443"
+      - "80:80"
