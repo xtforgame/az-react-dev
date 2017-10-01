@@ -43,6 +43,31 @@ var config = {
         //dist: {},
       },
     },
+    frontEnd: {
+      prefix: 'frontEnd',
+      useCommonLibrary: {
+        relativePath: 'common'
+      },
+      entry: {
+        js: {
+          dir: 'src/front-end',
+          glob: '**/*.js*',
+          filename: 'app.js',
+        },
+        static: {
+          dir: 'public',
+          filename: '**/*.*',
+        },
+      },
+      output: {
+        dir: 'dist',
+        default: {
+          dir: 'front-end',
+        },
+        //dev: {},
+        //dist: {},
+      },
+    },
   },
 };
 
