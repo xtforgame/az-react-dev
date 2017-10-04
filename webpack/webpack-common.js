@@ -59,7 +59,7 @@ module.exports = function(env) {
           loader: 'babel',
           query: {
             cacheDirectory: true,
-            presets: ['es2015'],
+            presets: ['es2015', 'react'],
             plugins: [
               'transform-decorators-legacy',
               'transform-class-properties',
@@ -67,6 +67,10 @@ module.exports = function(env) {
             ],
           },
           exclude: /node_modules/,
+        },
+        {
+          test: /\.json$/,
+          loader: 'json-loader',
         },
         {
           test: /\.css$/,

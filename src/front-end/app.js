@@ -1,25 +1,47 @@
-import imageSrcInCode from './iconx.png';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
-console.log([1, 2, 3].map(v => v).join(', '));
+import createHistory from 'history/createHashHistory';
+import { ConnectedRouter } from 'react-router-redux';
+import injectTapEventPlugin from 'react-tap-event-plugin'; // new: temporary tap-event codes
 
-let div1 = document.createElement('div');
-let text1 = document.createTextNode('Image From Public :');
-div1.appendChild(text1);
+import configureStore from './configureStore';
+import getRoutes from './getRoutes';
 
-let imgFromPublic = document.createElement('img');
-imgFromPublic.src = './images/icon.png';
+import LanguageProvider from '~/containers/LanguageProvider';
+import { translationMessages } from './i18n';
+
+injectTapEventPlugin();
+
+// Create a history of your choosing (we're using a browser history in this case)
+const history = createHistory();
+
+const initialState = {};
+const store = configureStore(initialState, history);
 
 
+const render = (messages) => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <LanguageProvider messages={messages}>
+        { /* ConnectedRouter will use the store from Provider automatically */ }
+        <ConnectedRouter history={history}>
+          {getRoutes(store)}
+        </ConnectedRouter>
+      </LanguageProvider>
+    </Provider>,
+    document.getElementById('page_main')
+  );
+};
 
-let div2 = document.createElement('div');
-let text2 = document.createTextNode('Image From Src :');
-div2.appendChild(text2);
-
-let imgFromSrc = document.createElement('img');
-imgFromSrc.src = imageSrcInCode;
-
-let element = document.getElementById('page_main');
-element.appendChild(div1);
-element.appendChild(imgFromPublic);
-element.appendChild(div2);
-element.appendChild(imgFromSrc);
+// Chunked polyfill for browsers without Intl support
+if (!window.Intl) {
+  require('intl');
+  require('intl/locale-data/jsonp/en.js');
+  require('intl/locale-data/jsonp/de.js');
+  require('intl/locale-data/jsonp/zh.js');
+  render(translationMessages);
+} else {
+  render(translationMessages);
+}
