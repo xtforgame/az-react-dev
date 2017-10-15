@@ -4,7 +4,12 @@ import https from 'https';
 export function runServer(app, credentials, cb, httpPort = 80, httpsPort = 443){
   //var httpServer = http.createServer(app);
   var httpServer = http.createServer(function (req, res) {
-    let newHost = req.headers['host'].replace(':' + httpPort, ':' + httpsPort);
+    let host = req.headers.host;
+    if(!host){
+      res.writeHead(400, {});
+      return res.end();
+    }
+    let newHost = host.replace(':' + httpPort, ':' + httpsPort);
     res.writeHead(301, { 'Location': 'https://' + newHost + req.url });
     res.end();
   });
