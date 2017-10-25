@@ -30,7 +30,7 @@ export default class HttpApp extends ServiceBase {
         if(!err.status){
           console.error(err);
           console.error(err.stack);
-          cctx.throw(JSON.stringify({error: 'Internal Server Error'}), 500);
+          ctx.throw(JSON.stringify({error: 'Internal Server Error'}), 500);
         }
         throw err;
       });
