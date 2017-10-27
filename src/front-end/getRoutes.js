@@ -3,7 +3,6 @@ import EnhancedRoute from '~/components/routes/EnhancedRoute';
 import PrivateRoute from '~/containers/routes/PrivateRoute';
 
 import App from '~/containers/App';
-import Home from '~/containers/Home';
 import AsyncPage from '~/containers/AsyncPage';
 import RoTest from '~/containers/RoTest';
 import RoTestReducer from '~/containers/RoTest/reducer';
@@ -15,11 +14,6 @@ let routeDefine = [
     path: '/',
     component: App,
     exact: true,
-  },
-  {
-    name: 'home',
-    path: '/home',
-    component: Home,
   },
   {
     name: 'about',
