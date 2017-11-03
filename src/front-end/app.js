@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import createHistory from 'history/createHashHistory';
-import { ConnectedRouter } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin'; // new: temporary tap-event codes
 
 import configureStore from './configureStore';
 import getRoutes from './getRoutes';
+import fontLoader from './fontLoader';
 
 import LanguageProvider from '~/containers/LanguageProvider';
 import { translationMessages } from './i18n';
+import App from '~/containers/App';
+import './main.css';
 
 injectTapEventPlugin();
 
@@ -20,17 +22,37 @@ const history = createHistory();
 const initialState = {};
 const store = configureStore(initialState, history);
 
+class AppWrapper extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      app: <div id="loading-page" style={{fontFamily: ''}}>Loading Page</div>, // the loading page
+    };
+  }
+
+  componentWillMount(){
+    fontLoader().min
+    .then(() => {
+      this.setState({
+        app: <App history={history} routes={getRoutes(store)} />,
+      });
+    });
+  }
+
+  render(){
+    return (
+      <Provider store={store}>
+        <LanguageProvider messages={this.props.messages}>
+          {this.state.app}
+        </LanguageProvider>
+      </Provider>
+    );
+  }
+}
 
 const render = (messages) => {
   ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        { /* ConnectedRouter will use the store from Provider automatically */ }
-        <ConnectedRouter history={history}>
-          {getRoutes(store)}
-        </ConnectedRouter>
-      </LanguageProvider>
-    </Provider>,
+    <AppWrapper messages={messages} />,
     document.getElementById('page_main')
   );
 };

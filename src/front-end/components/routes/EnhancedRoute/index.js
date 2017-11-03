@@ -14,13 +14,54 @@ class EnhancedRouteInternal extends React.Component {
     // console.log('props.staticContext', props.staticContext);
   }
 
+  // componentWillMount(){
+  //   console.log('EnhancedRoute componentWillMount');
+  // }
+
   render(){
-    let { match, location, history, staticContext, store, onEnter, onLeave, hocComponent: HocComponent, componentName, component: Component, epic, reducer, ...rest } = this.props;
+    let {
+      routeName,
+      match,
+      location,
+      history,
+      staticContext,
+      store,
+      onEnter,
+      onEntered,
+      onLeave,
+      hocComponent: HocComponent,
+      componentName,
+      component,
+      routeView,
+      routeViews,
+      epic,
+      reducer,
+      ...rest,
+    } = this.props;
     HocComponent = HocComponent || ViewHoc;
 
-    let component = Component && ((props) => <HocComponent {...props} store={store} onEnter={onEnter} onLeave={onLeave} componentName={componentName} component={Component} epic={epic} reducer={reducer} />);
+    // console.log(`EnhancedRouteInternal render: ${routeName}`);
+
     return (
-      <Route {...rest} component={component}/>
+      <Route
+        {...rest}
+        render={(compProps) => (
+          <HocComponent
+            routeName={routeName}
+            routeView={routeView}
+            routeViews={routeViews}
+            {...compProps}
+            store={store}
+            onEnter={onEnter}
+            onEntered={onEntered}
+            onLeave={onLeave}
+            componentName={componentName}
+            component={component}
+            epic={epic}
+            reducer={reducer}
+          />
+        )}
+      />
     );
   }
 }

@@ -1,3 +1,3 @@
 {
-  "app.components.App.greet.message": "{user}さん、こんにちは。"
+  "app.containers.App.greet.message": "{user}さん、こんにちは。"
 }

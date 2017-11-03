@@ -56,16 +56,29 @@ export function injectAsyncEpics(store, isValid) {
         epic = combineEpics(..._epic);
       }
 
+      // // I think we don't really need to explicit remove the origin one
+      // let originInjectable = store.asyncInjectables[name];
+      // if(originInjectable){
+      //   originInjectable.remove();
+      // }
+
       const injectable = makeEpicInjectable(epic);
       store.asyncInjectables[name] = injectable; // eslint-disable-line no-param-reassign
       createInjectableEpic(Object.keys(store.asyncInjectables).map(key => store.asyncInjectables[key].injectableEpic));
       injectable.inject();
+      return injectable;
     },
-    removeEpic: (name) => {
+    getInjectableEpic: (name) => {
+      return store.asyncInjectables[name];
+    },
+    removeEpic: (name, onlySpecificInjectable) => {
       const injectable = store.asyncInjectables[name];
       if(injectable){
-        injectable.remove();
+        if(!onlySpecificInjectable || onlySpecificInjectable === injectable){
+          injectable.remove();
+        }
       }
+      return injectable;
     }
   };
 }

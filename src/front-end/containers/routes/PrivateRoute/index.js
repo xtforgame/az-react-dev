@@ -3,23 +3,34 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import {
+  withRouter,
+} from 'react-router-dom';
 import Route from '~/components/routes/EnhancedRoute';
 
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
-  <Route {...rest} render={props => (
+let addRedirector = (Component) => withRouter(({ isAuthenticated, ...rest }) => {
+  return (
     isAuthenticated ? (
-      <Component {...props}/>
+      <Component {...rest}/>
     ) : (
       <Redirect to={{
         pathname: '/login',
-        state: { from: props.location }
+        state: { from: rest.location }
       }}/>
     )
-  )}/>
+  )
+});
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    component={
+      connect(
+        state => ({ isAuthenticated: state.get('global').isAuthenticated }),
+        {}
+      )(addRedirector(Component))
+    }
+  />
 );
 
-export default connect(
-  state => ({ isAuthenticated: state.get('global').isAuthenticated }),
-  {}
-)(PrivateRoute);
+export default PrivateRoute;

@@ -31,6 +31,29 @@ export const appLocales = [
   'zh-CN',
 ];
 
+export const appLocaleNames = [
+  'English',
+  'Deutsch',
+  '日本語',
+  '繁體中文',
+  '?体中文',
+];
+
+let localeIndex = {};
+appLocales.map((appLocale, i) => {
+  localeIndex[appLocale] = i;
+});
+
+let localeNameIndex = {};
+appLocaleNames.map((appLocaleName, i) => {
+  localeNameIndex[appLocaleName] = i;
+});
+
+export {
+  localeIndex,
+  localeNameIndex,
+};
+
 export const formatTranslationMessages = (locale, messages) => {
   const defaultFormattedMessages = locale !== DEFAULT_LOCALE
     ? formatTranslationMessages(DEFAULT_LOCALE, enTranslationMessages)

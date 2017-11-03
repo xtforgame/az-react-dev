@@ -19,7 +19,7 @@ export default (action$, store) => {
     .delay(1000)
     .mergeMap(action =>
       new Promise(resolve => {
-        console.log('actionx :', action);
+        console.log('InjectorTest epic :', action);
         // console.log('store :', store);
         store.dispatch(pong());
         store.dispatch(push('/'));

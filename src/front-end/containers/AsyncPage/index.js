@@ -2,13 +2,20 @@ import React from 'react';
 class AsyncPage extends React.Component {
   constructor(props){
     super(props);
-    this.state = {Component: null};
+    this.state = {Component: <div>Please wait for loading...</div>};
+    this.deferredLoad = null;
   }
+
   componentDidMount(){
-    setTimeout(() => {
-      this.setState({Component: (<div>xxxxxxxxxxxx</div>)});
+    this.deferredLoad = setTimeout(() => {
+      this.setState({Component: (<div>Deferred Loaded Component</div>)});
     }, 2000);
   }
+
+  componentWillUnmount(){
+    clearTimeout(this.deferredLoad);
+  }
+
   render(){
     return this.state.Component;
   }

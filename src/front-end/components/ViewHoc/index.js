@@ -16,33 +16,53 @@ class ViewHoc extends React.Component {
   }
 
   componentWillMount(){
+    // console.log('VOC componentWillMount');
     let onEnter = this.props.onEnter || (() => {});
     let { componentName, store, epic, reducer } = this.props;
     // console.log('store :', store);
-    let { injectReducer, injectEpic } = getAsyncInjectors(store);
+    let { injectReducer, injectEpic, getInjectableEpic } = getAsyncInjectors(store);
     if(reducer){
       // console.log('reducer :', reducer);
       injectReducer(componentName, reducer);
     }
     if(epic){
       // console.log('epic :', epic);
-      injectEpic(componentName, epic);
+      this.injectableEpic = injectEpic(componentName, epic);
     }
     onEnter(this.props);
+    this.setState({component: this.props.component});
+  }
+
+  componentDidMount(){
+    let onEntered = this.props.onEntered || (() => {});
+    let { componentName, store, epic, reducer } = this.props;
+    // console.log('store :', store);
+    let { injectReducer, injectEpic, getInjectableEpic } = getAsyncInjectors(store);
+    if(reducer){
+      // console.log('reducer :', reducer);
+      injectReducer(componentName, reducer);
+    }
+    if(epic){
+      // console.log('epic :', epic);
+      this.injectableEpic = injectEpic(componentName, epic);
+    }
+    onEntered(this.props);
     this.setState({component: this.props.component});
   }
 
   componentWillUnmount(){
     let onLeave = this.props.onLeave || (() => {});
     let { componentName, store, epic } = this.props;
-    let { removeEpic } = getAsyncInjectors(store);
-    removeEpic(componentName);
+    let { removeEpic, getInjectableEpic } = getAsyncInjectors(store);
+    removeEpic(componentName, this.injectableEpic);
     onLeave(this.props);
     this.setState({component: this.props.component});
   }
 
   render(){
-    let { match, location, history, staticContext, store, onEnter, onLeave, component, componentName, epic, reducer, ...rest } = this.props;
+    let { routeName, store, onEnter, onEntered, onLeave, component, componentName, epic, reducer, ...rest } = this.props;
+
+    // console.log(`Hoc render: ${routeName}`);
 
     let Component = this.state.component;
     if(!Component){

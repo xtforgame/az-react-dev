@@ -1,3 +1,3 @@
 {
-  "app.components.App.greet.message": "你好，{user}。"
+  "app.containers.App.greet.message": "早上好，{user}。"
 }

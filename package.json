@@ -1,7 +1,7 @@
 {
-  "name": "az-fullstack-dev",
+  "name": "az-react-dev",
   "version": "1.0.0",
-  "description": "A fullstack seed project",
+  "description": "A react seed project",
   "main": "dist/server/index.js",
   "repository": {
     "type": "git"
@@ -32,6 +32,7 @@
   "dependencies": {
     "app-root-path": "^1.0.0",
     "bottlejs": "^1.6.0",
+    "fontfaceobserver": "^2.0.13",
     "generic-router": "git+https://github.com/xtforgame/generic-router#v1.2.0",
     "history": "^4.0.0",
     "immutable": "^3.8.1",
@@ -45,9 +46,10 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-router-redux": "^5.0.0-alpha.6",
+    "react-router-redux": "5.0.0-alpha.6",
     "react-router-scroll": "^0.4.3",
     "react-tap-event-plugin": "^3.0.2",
+    "recompose": "^0.26.0",
     "redux": "^3.7.2",
     "redux-immutable": "^4.0.0",
     "redux-observable": "^0.16.0",

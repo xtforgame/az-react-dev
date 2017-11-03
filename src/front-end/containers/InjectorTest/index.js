@@ -4,7 +4,7 @@ import {
   ping,
 } from './actions';
 
-let RoTest = ({ isPinging, ping }) => (
+let InjectorTest = ({ isPinging, ping }) => (
   <div>
     <h1>is pinging: {isPinging.toString()}</h1>
     <button onClick={ping}>Start PING</button>
@@ -12,6 +12,6 @@ let RoTest = ({ isPinging, ping }) => (
 );
 
 export default connect(
-  state => ({ isPinging: state.get('RoTest').isPinging }),
+  state => ({ isPinging: state.get('InjectorTest').isPinging }),
   { ping }
-)(RoTest);
+)(InjectorTest);
