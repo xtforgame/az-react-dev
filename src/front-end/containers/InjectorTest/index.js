@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 import {
   ping,
 } from './actions';
+import loadWith from '~/components/loadWith';
+import reducer from './reducer';
+import epic from './epic';
+import { compose } from 'recompose';
 
 let InjectorTest = ({ isPinging, ping }) => (
   <div>
@@ -11,7 +15,14 @@ let InjectorTest = ({ isPinging, ping }) => (
   </div>
 );
 
-export default connect(
-  state => ({ isPinging: state.get('InjectorTest').isPinging }),
-  { ping }
+export default compose(
+  loadWith({
+    moduleName: 'InjectorTest',
+    reducer,
+    epic,
+  }),
+  connect(
+    state => ({ isPinging: state.get('InjectorTest').isPinging }),
+    { ping }
+  ),
 )(InjectorTest);

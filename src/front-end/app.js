@@ -34,7 +34,7 @@ class AppWrapper extends React.Component {
     fontLoader().min
     .then(() => {
       this.setState({
-        app: <App history={history} routes={getRoutes(store)} />,
+        app: <App history={history} routes={getRoutes()} />,
       });
     });
   }

@@ -2,14 +2,13 @@ import React from 'react';
 import { Switch } from 'react-router';
 import EnhancedRoute from '~/components/routes/EnhancedRoute';
 import PrivateRoute from '~/containers/routes/PrivateRoute';
+import withRouteEvents from '~/components/withRouteEvents';
 
 import MainFrame from '~/containers/MainFrame';
 import Home from '~/containers/Home';
 import AsyncPage from '~/containers/AsyncPage';
 import Login from '~/containers/Login';
 import InjectorTest from '~/containers/InjectorTest';
-import InjectorTestReducer from '~/containers/InjectorTest/reducer';
-import InjectorTestEpic from '~/containers/InjectorTest/epic';
 
 let routesDefine = {
   name: 'root',
@@ -21,13 +20,15 @@ let routesDefine = {
       {
         name: 'redirect',
         path: '/',
-        onEnter: ({history}) => {
-          console.log('On enter root');
-          history.replace({ pathname: '/home' });
-        },
-        onLeave: () => {
-          console.log('On leave root');
-        },
+        component: withRouteEvents({
+          onEnter: ({history}) => {
+            console.log('On enter root');
+            history.replace({ pathname: '/home' });
+          },
+          onLeave: () => {
+            console.log('On leave root');
+          },
+        })(null),
         exact: true,
       },
       {
@@ -39,10 +40,7 @@ let routesDefine = {
         name: 'injector-test',
         path: '/injector-test',
         routeClass: PrivateRoute,
-        componentName: 'InjectorTest',
         component: InjectorTest,
-        reducer: InjectorTestReducer,
-        epic: InjectorTestEpic,
       },
       {
         name: 'login',
@@ -75,13 +73,13 @@ let routesDefine = {
   }]
 };
 
-function createRouteViewsFromDefine(store, childViewsDefine){
+function createRouteViewsFromDefine(childViewsDefine){
   let result = {};
   childViewsDefine.map(childViewDefine => {
     let switchChildren = childViewDefine.switch;
     let name = childViewDefine.name || 'default';
     result[name] = childViewDefine.routes.map(routeDefine => {
-      return createRouteFromDefine(store, routeDefine);
+      return createRouteFromDefine(routeDefine);
     });
     if(switchChildren){
       result[name] = (
@@ -94,17 +92,17 @@ function createRouteViewsFromDefine(store, childViewsDefine){
   return result;
 }
 
-function createRouteFromDefine(store, routeDefine){
+function createRouteFromDefine(routeDefine){
   let { name, routeClass, routeViews, ...rest } = routeDefine;
   let Route = routeDefine.routeClass || EnhancedRoute;
-  routeViews = (routeViews && createRouteViewsFromDefine(store, routeViews)) || {};
+  routeViews = (routeViews && createRouteViewsFromDefine(routeViews)) || {};
   let routeView = routeViews.default;
   return (
-    <Route key={name} {...rest} store={store} routeName={name} routeView={routeView} routeViews={routeViews}/>
+    <Route key={name} {...rest} routeName={name} routeView={routeView} routeViews={routeViews}/>
   );
 }
 
-export default (store) => {
-  return createRouteFromDefine(store, routesDefine);
+export default () => {
+  return createRouteFromDefine(routesDefine);
 }
 

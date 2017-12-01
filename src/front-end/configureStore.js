@@ -10,9 +10,13 @@ import createInjectableEpic from './createInjectableEpic';
 const rootInjectable = createInjectableEpic();
 const epicMiddleware = createEpicMiddleware(rootInjectable.injectableEpic);
 
+let store = null;
+
+export const getStore = () => store;
+
 export default function configureStore(initialState = {}, history) {
   const rMiddleware = routerMiddleware(history);
-  const store = createStore(
+  store = createStore(
     createReducer(),
     fromJS(initialState),
     applyMiddleware(epicMiddleware, rMiddleware)
