@@ -6,7 +6,7 @@ import formatMessage from '~/utils/formatMessage';
 import {
   logout,
 } from '../App/actions';
-import messages from '../App/messages';
+import { messages } from '../App/translation';
 
 let Home = ({ intl, greetName, logout }) => (
   <div>

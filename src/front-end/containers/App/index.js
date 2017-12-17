@@ -11,7 +11,7 @@ import {
 } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import formatMessage from '~/utils/formatMessage';
-import messages from './messages';
+import { messages } from './translation';
 import { ConnectedRouter } from 'react-router-redux';
 import { changeLocale } from '~/containers/LanguageProvider/actions';
 import { makeSelectLocale } from '~/containers/LanguageProvider/selectors';
