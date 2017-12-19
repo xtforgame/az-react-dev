@@ -10,7 +10,7 @@ import getRoutes from './getRoutes';
 import fontLoader from './fontLoader';
 
 import LanguageProvider from '~/containers/LanguageProvider';
-import { translationMessages } from './i18n';
+import { getTranslationMessages } from './i18n';
 import App from '~/containers/App';
 import './main.css';
 
@@ -63,7 +63,7 @@ if (!window.Intl) {
   require('intl/locale-data/jsonp/en.js');
   require('intl/locale-data/jsonp/de.js');
   require('intl/locale-data/jsonp/zh.js');
-  render(translationMessages);
+  render(getTranslationMessages());
 } else {
-  render(translationMessages);
+  render(getTranslationMessages());
 }

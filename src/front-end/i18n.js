@@ -22,31 +22,6 @@ import { translations } from '~/utils/translationManager';
 
 // console.log('translations :', translations);
 
-const enTranslationMessages = {
-  ...enTranslationFromJson,
-  ...translations['en'],
-}
-
-const deTranslationMessages = {
-  ...deTranslationFromJson,
-  ...translations['de'],
-}
-
-const jaTranslationMessages = {
-  ...jaTranslationFromJson,
-  ...translations['ja'],
-}
-
-const zhTWTranslationMessages = {
-  ...zhTWTranslationFromJson,
-  ...translations['zh-TW'],
-}
-
-const zhCNTranslationMessages = {
-  ...zhCNTranslationFromJson,
-  ...translations['zh-CN'],
-}
-
 addLocaleData(enLocaleData);
 addLocaleData(deLocaleData);
 addLocaleData(jaLocaleData);
@@ -78,12 +53,49 @@ appLocaleNames.map((appLocaleName, i) => {
   localeNameIndex[appLocaleName] = i;
 });
 
+let enTranslationMessages = null;
+let deTranslationMessages = null;
+let jaTranslationMessages = null;
+let zhTWTranslationMessages = null;
+let zhCNTranslationMessages = null;
+
+const delayInit = () => {
+  if(enTranslationMessages){
+    return ;
+  }
+  enTranslationMessages = {
+    ...enTranslationFromJson,
+    ...translations['en'],
+  }
+  
+  deTranslationMessages = {
+    ...deTranslationFromJson,
+    ...translations['de'],
+  }
+  
+  jaTranslationMessages = {
+    ...jaTranslationFromJson,
+    ...translations['ja'],
+  }
+  
+  zhTWTranslationMessages = {
+    ...zhTWTranslationFromJson,
+    ...translations['zh-TW'],
+  }
+  
+  zhCNTranslationMessages = {
+    ...zhCNTranslationFromJson,
+    ...translations['zh-CN'],
+  }
+}
+
 export {
   localeIndex,
   localeNameIndex,
 };
 
 export const formatTranslationMessages = (locale, messages) => {
+  delayInit();
   const defaultFormattedMessages = locale !== DEFAULT_LOCALE
     ? formatTranslationMessages(DEFAULT_LOCALE, enTranslationMessages)
     : {};
@@ -95,10 +107,13 @@ export const formatTranslationMessages = (locale, messages) => {
   }, {});
 };
 
-export const translationMessages = {
-  en: formatTranslationMessages('en', enTranslationMessages),
-  de: formatTranslationMessages('de', deTranslationMessages),
-  ja: formatTranslationMessages('ja', jaTranslationMessages),
-  'zh-TW': formatTranslationMessages('zh-TW', zhTWTranslationMessages),
-  'zh-CN': formatTranslationMessages('zh-CN', zhCNTranslationMessages),
+export const getTranslationMessages = () => {
+  delayInit();
+  return {
+    en: formatTranslationMessages('en', enTranslationMessages),
+    de: formatTranslationMessages('de', deTranslationMessages),
+    ja: formatTranslationMessages('ja', jaTranslationMessages),
+    'zh-TW': formatTranslationMessages('zh-TW', zhTWTranslationMessages),
+    'zh-CN': formatTranslationMessages('zh-CN', zhCNTranslationMessages),
+  };
 };
