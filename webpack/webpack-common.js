@@ -39,56 +39,69 @@ module.exports = function(env) {
     output: {
       // path: path.resolve(projRoot, frontEndJsPublicFolder),
       path: path.resolve(projRoot, frontEndJsOutputFolder),
-      pathinfo: true,
+      pathinfo: env === 'development',
       filename: baseFolderName + '/js/[name].js',
       publicPath: '',
     },
     resolve: {
       // extensions: ['', '.jsx', '.js', '.scss', '.css', '.json', '.md'],
       alias: webpackResolveAlias,
-      extensions: ['', '.js', '.jsx'],
+      extensions: ['.js', '.jsx'],
     },
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.(js|jsx)$/,
           include: [
             path.resolve(projRoot, frontEndJsEntryFolder),
             path.resolve(projRoot, commonConfigJsEntryFolder),
           ],
-          loader: 'babel',
-          query: {
-            cacheDirectory: true,
-            presets: ['es2015', 'react'],
-            plugins: [
-              'transform-decorators-legacy',
-              'transform-class-properties',
-              'transform-object-rest-spread',
-            ],
-          },
+          use: [{
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+              presets: ['es2015', 'react'],
+              plugins: [
+                'transform-decorators-legacy',
+                'transform-class-properties',
+                'transform-object-rest-spread',
+              ],
+            },
+          }],
           exclude: /node_modules/,
         },
         {
           test: /\.json$/,
-          loader: 'json-loader',
+          use: ['json-loader'],
         },
         {
           test: /\.css$/,
-          loader: 'style!css!postcss',
+          use: [
+            'style-loader',
+            'css-loader',
+            'postcss-loader',
+          ],
         },
         {
           test: /\.(jpg|png|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'file?name=' + baseFolderName + '/images/[name].[ext]',
+          use: [{
+            loader: 'file-loader',
+            options: {
+              name: baseFolderName + '/images/[name].[ext]',
+            },
+          }],
         },
         {
           test: /\.(woff|woff2|eot|ttf|svg)(\?v=\d+\.\d+\.\d+)?$/,
-          // loader: 'file?name=' + baseFolderName + '/fonts/[name].[ext]',
-          loader: 'file?name=' + baseFolderName + '/fonts/[hash].[ext]',
+          use: [{
+            loader: 'file-loader',
+            options: {
+              // name: baseFolderName + '/fonts/[name].[ext]',
+              name: baseFolderName + '/fonts/[hash].[ext]',
+            },
+          }],
         },
-      ]
-    },
-    postcss: function() {
-      return [autoprefixer];
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify(env)}}),
@@ -103,6 +116,6 @@ module.exports = function(env) {
         template: path.resolve(projRoot, frontEndJsEntryFolder, 'index.html'),
         filename: 'index.html',
       }),
-    ]
+    ],
   };
 };

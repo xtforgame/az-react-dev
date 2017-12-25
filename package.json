@@ -57,11 +57,10 @@
     "rxjs": "^5.4.3"
   },
   "devDependencies": {
-    "autoprefixer": "^6.3.7",
     "az-gulp-env-lite": "git+https://github.com/xtforgame/az-gulp-env-lite#v0.4.0",
     "babel-core": "^6.14.0",
     "babel-eslint": "^6.1.2",
-    "babel-loader": "^6.2.4",
+    "babel-loader": "^7.1.2",
     "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -82,14 +81,13 @@
     "ignore-styles": "^5.0.1",
     "json-loader": "^0.5.7",
     "koa-static": "^3.0.0",
-    "koa-webpack-dev-middleware": "^1.4.5",
-    "koa-webpack-hot-middleware": "^1.0.3",
+    "koa-webpack-middleware": "^1.0.7",
     "mocha": "^3.0.2",
     "postcss-loader": "^0.9.1",
     "raw-loader": "^0.5.1",
     "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
-    "webpack": "^1.14.0"
+    "webpack": "^3.10.0"
   },
   "false": {}
 }
