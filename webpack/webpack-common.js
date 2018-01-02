@@ -41,7 +41,7 @@ module.exports = function(env) {
       path: path.resolve(projRoot, frontEndJsOutputFolder),
       pathinfo: env === 'development',
       filename: baseFolderName + '/js/[name].js',
-      publicPath: '',
+      publicPath: '/',
     },
     resolve: {
       // extensions: ['', '.jsx', '.js', '.scss', '.css', '.json', '.md'],

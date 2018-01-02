@@ -8,22 +8,24 @@ function getWebpackService() {
 
   try {
     webpack = require('webpack');
-    const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware');
+    const middleware = require('koa-webpack');
     const colorsSupported = require('supports-color');
     config = require('../../../../webpack/webpack.config');
-
+    console.log('config.output.publicPath :', config.output.publicPath);
     compiler = webpack(config);
-    const webpackDevMiddleware = devMiddleware(compiler, {
-      stats: {
-        colors: colorsSupported,
-        chunks: false,
-        modules: false,
+    const webpackMiddleware = middleware({
+      compiler,
+      dev: {
+        stats: {
+          colors: colorsSupported,
+          chunks: false,
+          modules: false,
+        },
+        publicPath: config.output.publicPath,
       },
-      publicPath: config.output.publicPath,
     });
 
-    const webpackHotMiddleware = hotMiddleware(compiler);
-    middlewares = [webpackDevMiddleware, webpackHotMiddleware];
+    middlewares = [webpackMiddleware];
   } catch (e) {
     console.log('Failed to start webpack middlewares:', e);
     webpack = null;
