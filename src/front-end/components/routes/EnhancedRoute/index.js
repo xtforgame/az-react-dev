@@ -18,25 +18,24 @@ class EnhancedRoute extends React.Component {
   render(){
     let {
       routeName,
-      component,
       routeView,
       routeViews,
+      component: RenderComponent,
+      componentProps,
       ...rest,
     } = this.props;
 
-    // console.log(`EnhancedRoute render: ${routeName}`);
-
-    let Component = this.state.component;
 
     return (
       <Route
         {...rest}
-        render={(compProps) => (
-          <Component
+        render={(p) => (
+          <RenderComponent
+            {...p}
             routeName={routeName}
             routeView={routeView}
             routeViews={routeViews}
-            {...compProps}
+            {...componentProps}
           />
         )}
       />

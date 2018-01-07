@@ -94,11 +94,11 @@ function createRouteViewsFromDefine(childViewsDefine){
 
 function createRouteFromDefine(routeDefine){
   let { name, routeClass, routeViews, ...rest } = routeDefine;
-  let Route = routeDefine.routeClass || EnhancedRoute;
+  let CustomRoute = routeDefine.routeClass || EnhancedRoute;
   routeViews = (routeViews && createRouteViewsFromDefine(routeViews)) || {};
   let routeView = routeViews.default;
   return (
-    <Route key={name} {...rest} routeName={name} routeView={routeView} routeViews={routeViews}/>
+    <CustomRoute {...rest} routeName={name} routeView={routeView} routeViews={routeViews}/>
   );
 }
 
