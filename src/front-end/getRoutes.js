@@ -10,7 +10,7 @@ import AsyncPage from '~/containers/AsyncPage';
 import Login from '~/containers/Login';
 import InjectorTest from '~/containers/InjectorTest';
 
-let routesDefine = {
+let globalRouteConfig = {
   name: 'root',
   component: props => props.routeView, // or props => props.routeViews.default
   routeViews: [{
@@ -73,15 +73,16 @@ let routesDefine = {
   }]
 };
 
-function createRouteViewsFromDefine(childViewsDefine){
-  let result = {};
-  childViewsDefine.map(childViewDefine => {
-    let switchChildren = childViewDefine.switch;
-    let name = childViewDefine.name || 'default';
-    result[name] = childViewDefine.routes.map(routeDefine => {
-      return createRouteFromDefine(routeDefine);
-    });
-    if(switchChildren){
+
+function createRouteViews(routeViewsConfigs) {
+  const result = {};
+  routeViewsConfigs.forEach((v) => {
+    const isSwitch = v.switch;
+    const name = v.name || defaultName;
+
+    result[name] = v.routes.map(routeConfig => createRoute(routeConfig));
+
+    if (isSwitch) {
       result[name] = (
         <Switch>
           {result[name]}
@@ -92,17 +93,31 @@ function createRouteViewsFromDefine(childViewsDefine){
   return result;
 }
 
-function createRouteFromDefine(routeDefine){
-  let { name, routeClass, routeViews, ...rest } = routeDefine;
-  let CustomRoute = routeDefine.routeClass || EnhancedRoute;
-  routeViews = (routeViews && createRouteViewsFromDefine(routeViews)) || {};
-  let routeView = routeViews.default;
+function createRoute(routeConfig) {
+  const {
+    component,
+    name,
+    routeClass,
+    routeViews: routeViewsConfigs,
+    ...rest
+  } = routeConfig;
+
+  // should assert component != null
+
+  const CustomRoute = routeClass || EnhancedRoute;
+  const routeViews = (routeViewsConfigs && createRouteViews(routeViewsConfigs)) || {};
+  const routeView = routeViews[defaultName];
   return (
-    <CustomRoute {...rest} routeName={name} routeView={routeView} routeViews={routeViews}/>
+    <CustomRoute
+      // do not provide key; this is a bug(?) of react-router v4
+      {...rest}
+      component={component}
+      routeName={name}
+      routeView={routeView}
+      routeViews={routeViews}
+    />
   );
 }
 
-export default () => {
-  return createRouteFromDefine(routesDefine);
-}
+export default () => createRoute(globalRouteConfig);
 

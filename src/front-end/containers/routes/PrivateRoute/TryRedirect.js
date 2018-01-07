@@ -2,6 +2,12 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+/*
+  Assuming props containing:
+    history  
+    location
+    match
+ */
 const TryRedirect = (props) => {
   const { 
     isAuthenticated, 
