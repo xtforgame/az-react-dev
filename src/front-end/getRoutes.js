@@ -95,14 +95,11 @@ function createRouteViews(routeViewsConfigs) {
 
 function createRoute(routeConfig) {
   const {
-    component,
     name,
     routeClass,
     routeViews: routeViewsConfigs,
     ...rest
   } = routeConfig;
-
-  // should assert component != null
 
   const CustomRoute = routeClass || EnhancedRoute;
   const routeViews = (routeViewsConfigs && createRouteViews(routeViewsConfigs)) || {};
@@ -111,7 +108,6 @@ function createRoute(routeConfig) {
     <CustomRoute
       // do not provide key; this is a bug(?) of react-router v4
       {...rest}
-      component={component}
       routeName={name}
       routeView={routeView}
       routeViews={routeViews}
