@@ -1,33 +1,29 @@
-import 'rxjs';
-import { createStore, applyMiddleware } from 'redux';
-import { fromJS } from 'immutable';
+import { routerReducer } from 'react-router-redux';
 import { routerMiddleware } from 'react-router-redux';
+import { fromJS } from 'immutable';
 
-import { createEpicMiddleware } from 'redux-observable';
-import createReducer from './createReducer';
-import createInjectableEpic from './createInjectableEpic';
+import { configureStore } from 'rrw-module';
+import RrwExEpic from 'rrw-module/extensions/epic';
 
-const rootInjectable = createInjectableEpic();
-const epicMiddleware = createEpicMiddleware(rootInjectable.injectableEpic);
+import languageProviderReducer from '~/containers/LanguageProvider/reducer';
 
-let store = null;
+import appReducer from '~/containers/App/reducer';
+import appEpic from '~/containers/App/epic';
 
-export const getStore = () => store;
+const staticReducers = {
+  global: appReducer,
+  router: routerReducer,
+  language: languageProviderReducer,
+};
 
-export default function configureStore(initialState = {}, history) {
-  const rMiddleware = routerMiddleware(history);
-  store = createStore(
-    createReducer(),
-    fromJS(initialState),
-    applyMiddleware(epicMiddleware, rMiddleware)
-  );
-
-  // Extensions
-  store.asyncReducers = {}; // Async reducer registry
-  store.asyncInjectables = {}; // Async epic registry
-
-  // rootInjectable.remove();
-  rootInjectable.inject();
-
-  return store;
-}
+export default (initialState, history) => configureStore(staticReducers, fromJS(initialState), {
+  extensions: [
+    {
+      extension: RrwExEpic,
+      options: {
+        staticEpic: appEpic,
+      },
+    },
+  ],
+  middlewares: [routerMiddleware(history)],
+});

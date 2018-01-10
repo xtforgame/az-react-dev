@@ -1,8 +1,7 @@
 import React from 'react';
-import { Switch } from 'react-router';
+import { Switch, Redirect } from 'react-router';
 import EnhancedRoute from '~/components/routes/EnhancedRoute';
 import PrivateRoute from '~/containers/routes/PrivateRoute';
-import withRouteEvents from '~/components/withRouteEvents';
 
 import MainFrame from '~/containers/MainFrame';
 import Home from '~/containers/Home';
@@ -22,15 +21,7 @@ const globalRouteConfig = {
       {
         name: 'redirect',
         path: '/',
-        component: withRouteEvents({
-          onEnter: ({history}) => {
-            console.log('On enter root');
-            history.replace({ pathname: '/home' });
-          },
-          onLeave: () => {
-            console.log('On leave root');
-          },
-        })(null),
+        component: () => <Redirect to={{ pathname: '/home' }}/>,
         exact: true,
       },
       {

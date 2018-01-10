@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   ping,
 } from './actions';
-import loadWith from '~/components/loadWith';
+import { makeModule } from 'rrw-module';
 import reducer from './reducer';
 import epic from './epic';
 import { compose } from 'recompose';
@@ -16,8 +16,7 @@ let InjectorTest = ({ isPinging, ping }) => (
 );
 
 export default compose(
-  loadWith({
-    moduleName: 'InjectorTest',
+  makeModule('InjectorTest', {
     reducer,
     epic,
   }),
