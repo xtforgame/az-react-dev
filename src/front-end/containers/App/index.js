@@ -32,6 +32,7 @@ let App = ({ history, pathname, routes, locale, intl, changeLocale, greetName })
     {(pathname === '/injector-test') && ' >>> ' }<button onClick={() => history.push('/injector-test')}>Injector Test (Login is required)</button><br />
     {(pathname === '/home') && ' >>> ' }<button onClick={() => history.push('/home')}>Home Page (in Main Frame)</button><br />
     {(pathname === '/async-in-main') && ' >>> ' }<button onClick={() => history.push('/async-in-main')}>Async Page (in Main Frame)</button><br />
+    {(pathname === '/async-in-main2') && ' >>> ' }<button onClick={() => history.push('/async-in-main2')}>Async Page (in Main Frame)</button><br />
     <hr />
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <ConnectedRouter history={history}>

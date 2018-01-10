@@ -10,7 +10,9 @@ import AsyncPage from '~/containers/AsyncPage';
 import Login from '~/containers/Login';
 import InjectorTest from '~/containers/InjectorTest';
 
-let routesDefine = {
+const defaultName = 'default';
+
+const globalRouteConfig = {
   name: 'root',
   component: props => props.routeView, // or props => props.routeViews.default
   routeViews: [{
@@ -66,6 +68,16 @@ let routesDefine = {
               path: '/async-in-main',
               component: AsyncPage,
             },
+            {
+              // Basically, the `name` should be unique in the same level,
+              // but if you want to treat routes(with the same component) are the same in a `Switch` component
+              // (it means that react will not re-mount the component while switching between those reoutes),
+              // you can provide the same key like this.
+              // (While naviagting from `/async-in-main2` to `/async-in-main`(and vice versa), `AsyncPage` will not re-mount)
+              name: 'async-in-main',
+              path: '/async-in-main2',
+              component: AsyncPage,
+            },
           ]
         }],
       },
@@ -73,15 +85,16 @@ let routesDefine = {
   }]
 };
 
-function createRouteViewsFromDefine(childViewsDefine){
-  let result = {};
-  childViewsDefine.map(childViewDefine => {
-    let switchChildren = childViewDefine.switch;
-    let name = childViewDefine.name || 'default';
-    result[name] = childViewDefine.routes.map(routeDefine => {
-      return createRouteFromDefine(routeDefine);
-    });
-    if(switchChildren){
+
+function createRouteViews(routeViewsConfigs) {
+  const result = {};
+  routeViewsConfigs.forEach((v) => {
+    const isSwitch = v.switch;
+    const name = v.name || defaultName;
+
+    result[name] = v.routes.map(routeConfig => createRoute(routeConfig));
+
+    if (isSwitch) {
       result[name] = (
         <Switch>
           {result[name]}
@@ -92,17 +105,28 @@ function createRouteViewsFromDefine(childViewsDefine){
   return result;
 }
 
-function createRouteFromDefine(routeDefine){
-  let { name, routeClass, routeViews, ...rest } = routeDefine;
-  let Route = routeDefine.routeClass || EnhancedRoute;
-  routeViews = (routeViews && createRouteViewsFromDefine(routeViews)) || {};
-  let routeView = routeViews.default;
+function createRoute(routeConfig) {
+  const {
+    name,
+    routeClass,
+    routeViews: routeViewsConfigs,
+    ...rest
+  } = routeConfig;
+
+  const CustomRoute = routeClass || EnhancedRoute;
+  const routeViews = (routeViewsConfigs && createRouteViews(routeViewsConfigs)) || {};
+  const routeView = routeViews[defaultName];
   return (
-    <Route key={name} {...rest} routeName={name} routeView={routeView} routeViews={routeViews}/>
+    <CustomRoute
+      // do not provide key; this is a bug(?) of react-router v4
+      key={name}
+      {...rest}
+      routeName={name}
+      routeView={routeView}
+      routeViews={routeViews}
+    />
   );
 }
 
-export default () => {
-  return createRouteFromDefine(routesDefine);
-}
+export default () => createRoute(globalRouteConfig);
 
