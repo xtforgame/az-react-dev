@@ -5,7 +5,7 @@ import {
 } from './actions';
 import { makeModule } from 'rrw-module';
 import reducer from './reducer';
-import epic from './epic';
+import saga from './saga';
 import { compose } from 'recompose';
 
 let InjectorTest = ({ isPinging, ping }) => (
@@ -18,7 +18,7 @@ let InjectorTest = ({ isPinging, ping }) => (
 export default compose(
   makeModule('InjectorTest', {
     reducer,
-    epic,
+    saga,
   }),
   connect(
     state => ({ isPinging: state.get('InjectorTest').isPinging }),

@@ -3,12 +3,12 @@ import { routerMiddleware } from 'react-router-redux';
 import { fromJS } from 'immutable';
 
 import { configureStore } from 'rrw-module';
-import RrwExEpic from 'rrw-module/extensions/epic';
+import RrwExSaga from 'rrw-module/extensions/saga';
 
 import languageProviderReducer from '~/containers/LanguageProvider/reducer';
 
 import appReducer from '~/containers/App/reducer';
-import appEpic from '~/containers/App/epic';
+import appSaga from '~/containers/App/saga';
 
 const staticReducers = {
   global: appReducer,
@@ -19,9 +19,9 @@ const staticReducers = {
 export default (initialState, history) => configureStore(staticReducers, fromJS(initialState), {
   extensions: [
     {
-      extension: RrwExEpic,
+      extension: RrwExSaga,
       options: {
-        staticEpic: appEpic,
+        staticSaga: appSaga,
       },
     },
   ],
