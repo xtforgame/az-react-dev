@@ -2,6 +2,7 @@ import {
   GREET,
   LOGIN,
   LOGOUT,
+  REMEMBER_ME,
 } from './constants';
 
 export default (state = { greetName: '', isAuthenticated: false }, action) => {
@@ -9,7 +10,7 @@ export default (state = { greetName: '', isAuthenticated: false }, action) => {
   case GREET:
     return {
       ...state,
-      greetName: action.name
+      greetName: action.name,
     };
 
   case LOGIN:
@@ -22,6 +23,12 @@ export default (state = { greetName: '', isAuthenticated: false }, action) => {
     return {
       ...state,
       isAuthenticated: false,
+    };
+
+  case REMEMBER_ME:
+    return {
+      ...state,
+      rememberUser: action.rememberUser,
     };
 
   default:

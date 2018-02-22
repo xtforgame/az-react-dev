@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
 import {
   greet,
+  rememberMe,
 } from './actions';
 import {
   withRouter,
@@ -17,7 +18,7 @@ import { changeLocale } from '~/containers/LanguageProvider/actions';
 import { makeSelectLocale } from '~/containers/LanguageProvider/selectors';
 
 
-let App = ({ history, pathname, routes, locale, intl, changeLocale, greetName }) => (
+let App = ({ history, pathname, routes, locale, intl, changeLocale, greetName, rememberMe, rememberUser }) => (
   <div>
     <select name={'lang'} value={locale} onChange={changeLocale} style={{float: 'right'}}>
       <option value="de">de</option>
@@ -38,19 +39,22 @@ let App = ({ history, pathname, routes, locale, intl, changeLocale, greetName })
     <ConnectedRouter history={history}>
       {routes}
     </ConnectedRouter>
+    <input type="checkbox" defaultChecked={rememberUser} value={rememberUser} onChange={() => rememberMe(!rememberUser)} /> Remember Me
   </div>
 );
 
 const mapStateToProps = createSelector(
   makeSelectLocale(),
   state => state.get('global').greetName,
+  state => state.get('global').rememberUser,
   state => state.get('router').location && state.get('router').location.pathname,
-  (locale, greetName, pathname) => ({ locale, greetName, pathname })
+  (locale, greetName, rememberUser, pathname) => ({ locale, greetName, rememberUser, pathname })
 );
 
 export function mapDispatchToProps(dispatch) {
   return {
     changeLocale: (event) => dispatch(changeLocale(event.target.value)),
+    rememberMe: (rememberUser) => dispatch(rememberMe(rememberUser)),
     dispatch,
   };
 }

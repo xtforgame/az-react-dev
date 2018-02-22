@@ -8,6 +8,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'; // new: temporary tap
 import configureStore from './configureStore';
 import getRoutes from './getRoutes';
 import fontLoader from './fontLoader';
+import { loadState } from './localStorage';
 
 import LanguageProvider from '~/containers/LanguageProvider';
 import { getTranslationMessages } from './i18n';
@@ -19,7 +20,10 @@ injectTapEventPlugin();
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory();
 
-const initialState = {};
+const initialState = {
+  ...loadState(),
+};
+// console.log('initialState :', initialState);
 const store = configureStore(initialState, history);
 
 class AppWrapper extends React.Component {
