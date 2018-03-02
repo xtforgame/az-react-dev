@@ -1,3 +1,4 @@
+import { compose } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { routerMiddleware } from 'react-router-redux';
 import { Map as ImmutableMap } from 'immutable';
@@ -18,6 +19,12 @@ const staticReducers = {
   language: languageProviderReducer,
 };
 
+let composeEnhancers = undefined;
+
+if(process.env.NODE_ENV === 'development'){
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+}
+
 export default (initialState, history) => configureStore(staticReducers, ImmutableMap(initialState), {
   extensions: [
     {
@@ -28,4 +35,5 @@ export default (initialState, history) => configureStore(staticReducers, Immutab
     },
   ],
   middlewares: [routerMiddleware(history), localStorageMiddleware],
+  compose: composeEnhancers,
 });
