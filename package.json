@@ -32,7 +32,7 @@
   "dependencies": {
     "app-root-path": "^1.0.0",
     "azldi": "git+https://github.com/xtforgame/azldi.git#v0.1.0",
-    "bottlejs": "^1.6.0",
+    "az-restful-helpers": "git+https://github.com/xtforgame/az-restful-helpers.git#v0.1.0",
     "fontfaceobserver": "^2.0.13",
     "generic-router": "git+https://github.com/xtforgame/generic-router#v1.2.0",
     "history": "^4.0.0",

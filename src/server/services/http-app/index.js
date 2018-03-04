@@ -5,6 +5,7 @@ import koaStatic from 'koa-static';
 import createRouterClass from 'generic-router';
 import bodyParser from 'koa-bodyparser';
 import { runServer } from './http-server';
+import { RestfulError } from 'az-restful-helpers';
 import getWebpackService from './webpack-service';
 import http from 'http';
 import path from 'path';
@@ -27,10 +28,14 @@ export default class HttpApp extends ServiceBase {
     // prevent any error to be sent to user
     this.app.use((ctx, next) => {
       return next().catch((err) => {
+        if(err instanceof RestfulError){
+          return err.koaThrow(ctx);
+        }
+        // console.log('err.restfulError :', err.restfulError);
         if(!err.status){
           console.error(err);
           console.error(err.stack);
-          ctx.throw(JSON.stringify({error: 'Internal Server Error'}), 500);
+          ctx.throw(500);
         }
         throw err;
       });
