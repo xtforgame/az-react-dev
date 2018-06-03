@@ -8,6 +8,9 @@ import RrwExEpic from 'rrw-module/extensions/epic';
 
 import languageProviderReducer from '~/containers/LanguageProvider/reducer';
 
+import {
+  LOGOUT,
+} from '~/containers/App/constants';
 import appReducer from '~/containers/App/reducer';
 import appEpic from '~/containers/App/epic';
 
@@ -26,6 +29,16 @@ if(process.env.NODE_ENV === 'development'){
 }
 
 export default (initialState, history) => configureStore(staticReducers, ImmutableMap(initialState), {
+  reducerOptions: {
+    createRootReducer: ((rootReducer) => (state, action) => {
+      if (action.type === LOGOUT) {
+        // leave keys belong to staticReducers after logout
+        state = state.filter((v, k) => staticReducers[k] !== undefined);
+      }
+
+      return rootReducer(state, action);
+    }),
+  },
   extensions: [
     {
       extension: RrwExEpic,
