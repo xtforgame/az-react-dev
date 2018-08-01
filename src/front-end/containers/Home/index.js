@@ -8,10 +8,13 @@ import {
 } from '../App/actions';
 import { messages } from '../App/translation';
 
-let Home = ({ intl, greetName, logout }) => (
+const Home = ({ intl, greetName, logout }) => (
   <div>
-    {formatMessage(intl, messages.greetText, {user: greetName || 'user0001'})}<br />
-    <button onClick={logout}>Logout</button>
+    {formatMessage(intl, messages.greetText, { user: greetName || 'user0001' })}
+    <br />
+    <button type="button" onClick={logout}>
+Logout
+    </button>
   </div>
 );
 

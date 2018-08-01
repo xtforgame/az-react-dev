@@ -1,4 +1,8 @@
-/* eslint-disable global-require */
+/* eslint-disable global-require, import/no-extraneous-dependencies */
+import path from 'path';
+import appRootPath from 'app-root-path';
+
+const appRoot = appRootPath.resolve('./');
 
 function getWebpackService() {
   let webpack = null;
@@ -10,8 +14,8 @@ function getWebpackService() {
     webpack = require('webpack');
     const middleware = require('koa-webpack');
     const colorsSupported = require('supports-color');
-    config = require('../../../../webpack/webpack.config');
-    console.log('config.output.publicPath :', config.output.publicPath);
+    config = require(path.join(appRoot, 'webpack/webpack.dev')); // eslint-disable-line import/no-dynamic-require
+    console.log('config.output.publicPath :', config.output.publicPath); // eslint-disable-line no-console
     compiler = webpack(config);
     const webpackMiddleware = middleware({
       compiler,
@@ -27,7 +31,7 @@ function getWebpackService() {
 
     middlewares = [webpackMiddleware];
   } catch (e) {
-    console.log('Failed to start webpack middlewares:', e);
+    console.warn('Failed to start webpack middlewares:', e);
     webpack = null;
     config = null;
     compiler = null;

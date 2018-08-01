@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -27,14 +28,18 @@ const initialState = {
 const store = configureStore(initialState, history);
 
 class AppWrapper extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      app: <div id="loading-page" style={{fontFamily: ''}}>Loading Page</div>, // the loading page
+      app: (
+        <div id="loading-page" style={{ fontFamily: '' }}>
+          Loading Page
+        </div>
+      ), // the loading page
     };
   }
 
-  componentWillMount(){
+  componentWillMount() {
     fontLoader().min
     .then(() => {
       this.setState({
@@ -43,11 +48,13 @@ class AppWrapper extends React.Component {
     });
   }
 
-  render(){
+  render() {
+    const { messages } = this.props;
+    const { app } = this.state;
     return (
       <Provider store={store}>
-        <LanguageProvider messages={this.props.messages}>
-          {this.state.app}
+        <LanguageProvider messages={messages}>
+          {app}
         </LanguageProvider>
       </Provider>
     );

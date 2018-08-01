@@ -10,8 +10,8 @@ class PrivateRoute extends React.Component {
       <EnhancedRoute
         {...rest}
         component={TryRedirect}
-        componentProps={{component}}
-      />  
+        componentProps={{ component }}
+      />
     );
   }
 }

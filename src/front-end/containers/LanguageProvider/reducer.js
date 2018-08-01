@@ -19,11 +19,11 @@ const initialState = fromJS({
 
 function languageProviderReducer(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_LOCALE:
-      return state
+  case CHANGE_LOCALE:
+    return state
         .set('locale', action.locale);
-    default:
-      return state;
+  default:
+    return state;
   }
 }
 

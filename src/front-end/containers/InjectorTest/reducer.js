@@ -1,7 +1,6 @@
 import {
   PING,
   PONG,
-  STOP,
 } from './constants';
 
 export default (state = { isPinging: false }, action) => {

@@ -4,27 +4,28 @@ import { connect } from 'react-redux';
 
 /*
   Assuming props containing:
-    history  
+    history
     location
     match
  */
 const TryRedirect = (props) => {
-  const { 
-    isAuthenticated, 
+  const {
+    isAuthenticated,
     component: Component,
     ...rest
   } = props;
 
   return (
     isAuthenticated ? (
-      <Component {...rest}/>
+      <Component {...rest} />
     ) : (
       <Redirect to={{
         pathname: '/login',
         state: { from: rest.location },
-      }}/>
+      }}
+      />
     )
-  )
+  );
 };
 
 export default connect(

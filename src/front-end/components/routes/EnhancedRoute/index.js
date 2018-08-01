@@ -2,21 +2,20 @@ import React from 'react';
 import { Route } from 'react-router';
 
 class EnhancedRoute extends React.Component {
-  render(){
-    let {
+  render() {
+    const {
       routeName,
       routeView,
       routeViews,
       component: RenderComponent,
       componentProps,
-      ...rest,
+      ...rest
     } = this.props;
-
 
     return (
       <Route
         {...rest}
-        render={(p) => (
+        render={p => (
           <RenderComponent
             {...p}
             routeName={routeName}

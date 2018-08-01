@@ -43,13 +43,13 @@ export const appLocaleNames = [
   '简体中文',
 ];
 
-let localeIndex = {};
-appLocales.map((appLocale, i) => {
+const localeIndex = {};
+appLocales.forEach((appLocale, i) => {
   localeIndex[appLocale] = i;
 });
 
-let localeNameIndex = {};
-appLocaleNames.map((appLocaleName, i) => {
+const localeNameIndex = {};
+appLocaleNames.forEach((appLocaleName, i) => {
   localeNameIndex[appLocaleName] = i;
 });
 
@@ -60,34 +60,34 @@ let zhTWTranslationMessages = null;
 let zhCNTranslationMessages = null;
 
 const delayInit = () => {
-  if(enTranslationMessages){
-    return ;
+  if (enTranslationMessages) {
+    return;
   }
   enTranslationMessages = {
     ...enTranslationFromJson,
-    ...translations['en'],
-  }
-  
+    ...translations.en,
+  };
+
   deTranslationMessages = {
     ...deTranslationFromJson,
-    ...translations['de'],
-  }
-  
+    ...translations.de,
+  };
+
   jaTranslationMessages = {
     ...jaTranslationFromJson,
-    ...translations['ja'],
-  }
-  
+    ...translations.ja,
+  };
+
   zhTWTranslationMessages = {
     ...zhTWTranslationFromJson,
     ...translations['zh-TW'],
-  }
-  
+  };
+
   zhCNTranslationMessages = {
     ...zhCNTranslationFromJson,
     ...translations['zh-CN'],
-  }
-}
+  };
+};
 
 export {
   localeIndex,

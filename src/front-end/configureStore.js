@@ -1,6 +1,6 @@
+/* eslint-disable no-underscore-dangle, no-param-reassign */
 import { compose } from 'redux';
-import { routerReducer } from 'react-router-redux';
-import { routerMiddleware } from 'react-router-redux';
+import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { Map as ImmutableMap } from 'immutable';
 
 import { configureStore } from 'rrw-module';
@@ -22,15 +22,15 @@ const staticReducers = {
   language: languageProviderReducer,
 };
 
-let composeEnhancers = undefined;
+let composeEnhancers;
 
-if(process.env.NODE_ENV === 'development'){
+if (process.env.NODE_ENV === 'development') {
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
 
 export default (initialState, history) => configureStore(staticReducers, ImmutableMap(initialState), {
   reducerOptions: {
-    createRootReducer: ((rootReducer) => (state, action) => {
+    createRootReducer: (rootReducer => (state, action) => {
       if (action.type === LOGOUT) {
         // leave keys belong to staticReducers after logout
         state = state.filter((v, k) => staticReducers[k] !== undefined);

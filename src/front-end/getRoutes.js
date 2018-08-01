@@ -13,7 +13,7 @@ const defaultName = 'default';
 
 const globalRouteConfig = {
   name: 'root',
-  component: props => props.routeView, // or props => props.routeViews.default
+  component: ({ routeView }) => routeView, // or props => props.routeViews.default
   routeViews: [{
     switch: true,
     name: 'default',
@@ -21,7 +21,7 @@ const globalRouteConfig = {
       {
         name: 'redirect',
         path: '/',
-        component: () => <Redirect to={{ pathname: '/home' }}/>,
+        component: () => <Redirect to={{ pathname: '/home' }} />,
         exact: true,
       },
       {
@@ -64,16 +64,17 @@ const globalRouteConfig = {
               // but if you want to treat routes(with the same component) are the same in a `Switch` component
               // (it means that react will not re-mount the component while switching between those reoutes),
               // you can provide the same key like this.
-              // (While naviagting from `/async-in-main2` to `/async-in-main`(and vice versa), `AsyncPage` will not re-mount)
+              // (While naviagting from `/async-in-main2` to `/async-in-main`(and vice versa),
+              // `AsyncPage` will not re-mount)
               name: 'async-in-main',
               path: '/async-in-main2',
               component: AsyncPage,
             },
-          ]
+          ],
         }],
       },
-    ]
-  }]
+    ],
+  }],
 };
 
 
@@ -120,4 +121,3 @@ function createRoute(routeConfig) {
 }
 
 export default () => createRoute(globalRouteConfig);
-

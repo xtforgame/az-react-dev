@@ -60,7 +60,11 @@ module.exports = function(env) {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-              presets: ['es2015', 'react'],
+              presets: [['env', {
+                targets: {
+                  browsers: ['defaults', 'not dead'],
+                },
+              }], 'react'],
               plugins: [
                 'transform-decorators-legacy',
                 'transform-class-properties',
@@ -68,6 +72,7 @@ module.exports = function(env) {
               ],
             },
           }],
+          // exclude: /node_modules/,
           exclude: /node_modules/,
         },
         {

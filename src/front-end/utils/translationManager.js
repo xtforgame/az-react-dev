@@ -6,13 +6,11 @@ export {
 };
 
 
-const addPrefix = (prefix, entryName) => {
-  return `${prefix}.${entryName}`;
-};
+const addPrefix = (prefix, entryName) => `${prefix}.${entryName}`;
 
 const addPrefixToKeys = (prefix, obj) => {
-  let result = {};
-  Object.keys(obj).map(key => {
+  const result = {};
+  Object.keys(obj).forEach((key) => {
     result[addPrefix(prefix, key)] = obj[key];
   });
   return result;
@@ -21,14 +19,14 @@ const addPrefixToKeys = (prefix, obj) => {
 export const registerTranslationData = (prefix, translationData) => {
   const translationMap = translationData.translation;
   const messageData = {};
-  Object.keys(translationMap).map(locale => {
+  Object.keys(translationMap).forEach((locale) => {
     translations[locale] = {
       ...translations[locale],
       ...addPrefixToKeys(prefix, translationMap[locale]),
     };
-    Object.keys(translationMap[locale]).map(entryName => {
-      let defaultMessage = undefined;
-      if(translationData.defaultMessages[entryName]){
+    Object.keys(translationMap[locale]).forEach((entryName) => {
+      let defaultMessage;
+      if (translationData.defaultMessages[entryName]) {
         defaultMessage = translationData.defaultMessages[entryName];
       }
       messageData[entryName] = {
@@ -46,4 +44,4 @@ export const registerTranslationData = (prefix, translationData) => {
   return {
     messages,
   };
-}
+};

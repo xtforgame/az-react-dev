@@ -1,0 +1,51 @@
+{
+  "rules": {
+    // vanilla
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "max-len": ["warn", { "code": 120, "ignoreUrls": true, "ignoreStrings": true, "ignoreTemplateLiterals": true }],
+    "camelcase": "off", // => maybe enable later
+    "no-use-before-define": ["error", "nofunc"], // do not check class and function
+    "no-unused-vars": ["error", { "args": "none", "ignoreRestSiblings": true }],
+    "class-methods-use-this": "off",
+    // "no-return-assign": ["error", "except-parens"],
+    "radix": ["error", "as-needed"],
+    "prefer-const": ["error", {"destructuring": "all"}],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "ignore"
+    }],
+    "no-bitwise": ["error", { "allow": ["~"] }],
+    "no-else-return": "off",
+    "indent": ["error", 2, { "MemberExpression": "off" }],
+    "no-plusplus": "off",
+    "no-continue": "off",
+
+    // import plugin
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+
+    // react plugin
+    "react/prop-types": ["error", { "ignore": [], "customValidators": [], "skipUndeclared": true }],
+    "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
+    "react/require-default-props": "off",
+    "react/prefer-stateless-function": "off",
+    "react/destructuring-assignment": "off",
+    "react/no-access-state-in-setstate": "off",
+
+    // jsx-a11y plugin
+    "jsx-a11y/label-has-for": "off",
+
+    "no-shadow": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "mocha": true,
+    "jest": true
+  },
+  "extends": "airbnb"
+}

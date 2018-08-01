@@ -1,6 +1,6 @@
 import { registerTranslationData } from '~/utils/translationManager';
 
-const translationData = {
+export const translationData = {
   defaultMessages: {
     greetText: 'Hi, user.',
   },
@@ -24,4 +24,4 @@ const translationData = {
 };
 
 const t = registerTranslationData('app.containers.App', translationData);
-export const messages = t.messages;
+export const { messages } = t;

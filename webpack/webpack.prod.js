@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-var webpackCommon = require('./webpack-common');
+var webpackCommon = require('./webpack.common');
 
 var cfg = webpackCommon('production');
 

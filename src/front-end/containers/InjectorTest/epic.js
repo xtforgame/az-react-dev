@@ -14,20 +14,15 @@ import {
   greet,
 } from '~/containers/App/actions';
 
-export default (action$, store) => {
-  return action$.ofType(PING)
+export default (action$, store) => action$.ofType(PING)
     .delay(1000)
-    .mergeMap(action =>
-      new Promise(resolve => {
-        console.log('InjectorTest epic :', action);
-        // console.log('store :', store);
-        store.dispatch(pong());
-        store.dispatch(push('/'));
+    .mergeMap(action => new Promise((resolve) => {
+      // console.log('InjectorTest epic :', action);
+      // console.log('store :', store);
+      store.dispatch(pong());
+      store.dispatch(push('/'));
 
-        setTimeout(() => {
-          resolve(greet('Rick')); // Should be canceled by dynamic epic loading
-        }, 20);
-      })
-    )
-    // .takeUntil(action$.ofType(LOCATION_CHANGE));
-};
+      setTimeout(() => {
+        resolve(greet('Rick')); // Should be canceled by dynamic epic loading
+      }, 20);
+    }));

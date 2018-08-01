@@ -51,7 +51,7 @@ var config = {
       entry: {
         js: {
           dir: 'src/front-end',
-          glob: '**/*.js*',
+          glob: '**/*.js',
           filename: 'app.js',
         },
         static: {
