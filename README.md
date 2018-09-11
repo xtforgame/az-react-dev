@@ -1,6 +1,6 @@
 # AzReactDev
 
-A general purpose seed project base
+A react seed project
 
 Run `npm install`
 
