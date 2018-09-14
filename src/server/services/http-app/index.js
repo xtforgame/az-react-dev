@@ -25,6 +25,7 @@ export default class HttpApp extends ServiceBase {
   constructor(envCfg) {
     super();
     this.app = new Koa();
+    this.app.proxy = !!process.env.KOA_PROXY_ENABLED;
     // prevent any error to be sent to user
     this.app.use((ctx, next) => next().catch((err) => {
       if (err instanceof RestfulError) {
@@ -38,17 +39,12 @@ export default class HttpApp extends ServiceBase {
       }
       throw err;
     }));
-    this.app.use(bodyParser());
+    this.app.use(bodyParser({
+      formLimit: '10mb',
+      jsonLimit: '10mb',
+      textLimit: '10mb',
+    }));
     /* let credentials = */this.credentials = envCfg.credentials;
-
-    // ========================================
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-      const { middlewares } = getWebpackService();
-      middlewares.map(middleware => this.app.use(middleware));
-    } else {
-      this.app.use(koaStatic(path.join(appRoot, 'dist', 'front-end')));
-    }
-    // ========================================
 
     const KoaRouter = createRouterClass({
       methods,
@@ -64,11 +60,28 @@ export default class HttpApp extends ServiceBase {
   }
 
   onStart() {
-    //= =====================================================
-    return new Promise((resolve) => {
+    // ======================================================
+    let p = Promise.resolve();
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+      const { middlewarePromise/* , compileDonePromise */ } = getWebpackService();
+      p = middlewarePromise
+      .then((middleware) => {
+        this.app.use(middleware);
+        this.closeWebpack = () => Promise.resolve()
+        .then(() => new Promise((resolve, reject) => {
+          middleware.close(resolve);
+        }));
+      });
+      // .then(() => compileDonePromise);
+    } else {
+      this.closeWebpack = Promise.resolve();
+      this.app.use(koaStatic(path.join(appRoot, 'dist', 'front-end')));
+    }
+    // ========================================
+    return p.then(() => new Promise((resolve) => {
       const cb = (httpServer, httpsServer) => resolve({ httpServer, httpsServer });
       runServer(this.app, this.credentials, cb, httpPort, httpsPort);
-    })
+    }))
     .then(({ httpServer, httpsServer }) => {
       this.httpServer = httpServer;
       this.httpsServer = httpsServer;
@@ -89,6 +102,7 @@ export default class HttpApp extends ServiceBase {
         resolve();
       })));
     }
+    p = p.then(this.closeWebpack || (() => {}));
     return p.then(() => {
       console.log('Everything is cleanly shutdown.');
     });

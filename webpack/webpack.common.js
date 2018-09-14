@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var gulpConfig = require('../.azdata/gulp-config');
@@ -28,8 +27,9 @@ if(frontEndCommonLibraryRelativePath && commonConfigJsEntryFolder){
   webpackResolveAlias[frontEndCommonLibraryRelativePath] = path.resolve(projRoot, commonConfigJsEntryFolder);
 }
 
-module.exports = function(env) {
+module.exports = function({ mode }) {
   return {
+    mode,
     devtool: 'inline-source-map',
     entry: {
       app: [
@@ -39,7 +39,7 @@ module.exports = function(env) {
     output: {
       // path: path.resolve(projRoot, frontEndJsPublicFolder),
       path: path.resolve(projRoot, frontEndJsOutputFolder),
-      pathinfo: env === 'development',
+      pathinfo: mode === 'development',
       filename: baseFolderName + '/js/[name].js',
       publicPath: '/',
     },
@@ -77,14 +77,16 @@ module.exports = function(env) {
         },
         {
           test: /\.json$/,
-          use: ['json-loader'],
+          type: 'javascript/auto',
+          use: [{
+            loader: 'file-loader',
+          }],
         },
         {
           test: /\.css$/,
           use: [
             'style-loader',
             'css-loader',
-            'postcss-loader',
           ],
         },
         {
@@ -109,7 +111,7 @@ module.exports = function(env) {
       ],
     },
     plugins: [
-      new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify(env)}}),
+      new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify(mode)}}),
       new CopyWebpackPlugin([
         {
           from: path.resolve(projRoot, frontEndJsPublicFolder),

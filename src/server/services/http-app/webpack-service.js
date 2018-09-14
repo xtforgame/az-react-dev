@@ -8,18 +8,19 @@ function getWebpackService() {
   let webpack = null;
   let config = null;
   let compiler = null;
-  let middlewares = [];
+  let middlewarePromise = Promise.resolve();
+  let compileDonePromise = Promise.resolve();
 
   try {
     webpack = require('webpack');
-    const middleware = require('koa-webpack');
+    const koaWebpack = require('koa-webpack');
     const colorsSupported = require('supports-color');
     config = require(path.join(appRoot, 'webpack/webpack.dev')); // eslint-disable-line import/no-dynamic-require
     console.log('config.output.publicPath :', config.output.publicPath); // eslint-disable-line no-console
     compiler = webpack(config);
-    const webpackMiddleware = middleware({
+    middlewarePromise = koaWebpack({
       compiler,
-      dev: {
+      devMiddleware: {
         stats: {
           colors: colorsSupported,
           chunks: false,
@@ -27,22 +28,32 @@ function getWebpackService() {
         },
         publicPath: config.output.publicPath,
       },
+      hotClient: {
+        port: 18080,
+      },
     });
-
-    middlewares = [webpackMiddleware];
+    compileDonePromise = new Promise((resolve) => {
+      let resolveOnce = (stats) => {
+        resolve(stats);
+        resolveOnce = () => {};
+      };
+      compiler.plugin('done', resolveOnce);
+    });
   } catch (e) {
-    console.warn('Failed to start webpack middlewares:', e);
+    console.warn('Failed to start webpack promise:', e);
     webpack = null;
     config = null;
     compiler = null;
-    middlewares = [];
+    middlewarePromise = Promise.resolve();
+    compileDonePromise = Promise.resolve();
   }
 
   return {
     webpack,
     config,
     compiler,
-    middlewares,
+    middlewarePromise,
+    compileDonePromise,
   };
 }
 
