@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-
 import createHistory from 'history/createHashHistory';
 import injectTapEventPlugin from 'react-tap-event-plugin'; // new: temporary tap-event codes
 

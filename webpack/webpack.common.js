@@ -72,8 +72,14 @@ module.exports = function({ mode }) {
               ],
             },
           }],
-          // exclude: /node_modules/,
           exclude: /node_modules/,
+        },
+        {
+          test: /\.json$/,
+          type: 'javascript/auto',
+          use: [{
+            loader: 'file-loader',
+          }],
         },
         {
           test: /\.css$/,

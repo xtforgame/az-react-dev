@@ -15,4 +15,9 @@ cfg.plugins.splice(1, 0,
   })
 );
 
+// // for debug
+// cfg.optimization = {
+//   minimize: false,
+// };
+
 module.exports = cfg;

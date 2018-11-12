@@ -2,6 +2,9 @@
 import path from 'path';
 import appRootPath from 'app-root-path';
 import webpack from 'webpack';
+import {
+  webpackHotClientPort,
+} from 'config';
 
 const appRoot = appRootPath.resolve('./');
 
@@ -28,7 +31,7 @@ export default () => {
         publicPath: config.output.publicPath,
       },
       hotClient: {
-        port: 18080,
+        port: webpackHotClientPort || 18080,
       },
     });
     compileDonePromise = new Promise((resolve) => {

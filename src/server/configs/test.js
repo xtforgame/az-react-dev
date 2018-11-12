@@ -13,8 +13,12 @@ const credentialFiles = {
 const httpPort = 8080;
 const httpsPort = 8443;
 
+const webpackHotClientPort = 18080;
+
 export {
   credentialFiles,
   httpPort,
   httpsPort,
+
+  webpackHotClientPort,
 };
