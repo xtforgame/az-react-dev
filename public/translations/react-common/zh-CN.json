@@ -1,0 +1,4 @@
+{
+  "enterRecoveryCodeFor": "请输入以下帐号的恢復代碼：<0>{{accountName}}</0>",
+  "userAgreement": "一旦点击「{{createAccountV}}」，就代表你<0>{{terms}}</0>以及<1>{{privacyPolicy}}</1>。"
+}

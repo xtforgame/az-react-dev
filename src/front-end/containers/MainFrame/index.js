@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class MainFrame extends React.Component {
+export default class MainFrame extends React.PureComponent {
   componentWillMount() {
     // console.log('MainFrame componentWillMount');
   }

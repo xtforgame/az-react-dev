@@ -1,0 +1,7 @@
+{
+  "newProject": "New Project",
+  "projectTypeLabel": "Type*",
+  "projectNameLabel": "Name*",
+  "projectAbbreviationLabel": "Abbreviation",
+  "abbreviationHelperText": "Setup a name easier to identify"
+}

@@ -1,0 +1,4 @@
+{
+  "enterRecoveryCodeFor": "Please enter the verification code for : <0>{{accountName}}</0>",
+  "userAgreement": "By clicking \"Create account\", you agree to our <0>{{terms}}</0> and that you have read our <1>{{privacyPolicy}}</1>"
+}

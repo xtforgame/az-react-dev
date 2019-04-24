@@ -7,7 +7,7 @@
     "no-use-before-define": ["error", "nofunc"], // do not check class and function
     "no-unused-vars": ["error", { "args": "none", "ignoreRestSiblings": true }],
     "class-methods-use-this": "off",
-    // "no-return-assign": ["error", "except-parens"],
+    "no-return-assign": ["error", "except-parens"],
     "radix": ["error", "as-needed"],
     "prefer-const": ["error", {"destructuring": "all"}],
     "comma-dangle": ["error", {

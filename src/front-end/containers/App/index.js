@@ -2,22 +2,17 @@ import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import {
-  injectIntl,
-  FormattedMessage,
-} from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import {
   rememberMe,
 } from './actions';
-import formatMessage from '~/utils/formatMessage';
-import { messages } from './translation';
 import { ConnectedRouter } from 'react-router-redux';
 import { changeLocale } from '~/containers/LanguageProvider/actions';
 import { makeSelectLocale } from '~/containers/LanguageProvider/selectors';
 
 
 const App = ({
-  history, pathname, routes, locale, intl, changeLocale, greetName, rememberMe, rememberUser,
+  history, pathname, routes, locale, t, changeLocale, greetName, rememberMe, rememberUser,
 }) => (
   <div>
     <select name="lang" value={locale} onChange={changeLocale} style={{ float: 'right' }}>
@@ -37,9 +32,9 @@ const App = ({
         zh-TW
       </option>
     </select>
-    {formatMessage(intl, messages.greetText, { user: greetName || 'user0001' })}
+    {t('greetText', { user: greetName || 'user0001' })}
     <br />
-    <FormattedMessage {...messages.greetText} values={{ user: greetName || 'user' }} />
+    {t('greetText', { user: greetName || 'user' })}
     <br />
     <br />
     {(pathname === '/async') && ' >>> ' }
@@ -98,5 +93,5 @@ export function mapDispatchToProps(dispatch) {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  injectIntl,
+  withTranslation(['app-common']),
 )(App);

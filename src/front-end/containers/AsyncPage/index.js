@@ -1,6 +1,6 @@
 import React from 'react';
 
-class AsyncPage extends React.Component {
+class AsyncPage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

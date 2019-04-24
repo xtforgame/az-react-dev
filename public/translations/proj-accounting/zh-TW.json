@@ -1,0 +1,7 @@
+{
+  "newProject": "新增專案",
+  "projectTypeLabel": "類型*",
+  "projectNameLabel": "名稱*",
+  "projectAbbreviationLabel": "簡稱",
+  "abbreviationHelperText": "取一個更好識別的名稱"
+}

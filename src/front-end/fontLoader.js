@@ -3,8 +3,9 @@ import { toSeqPromise } from 'common/utils';
 
 
 const loadMin = () => toSeqPromise([
-  ['Noto Sans TC', 400],
-  ['Noto Sans TC', 700],
+  // ['Noto Sans TC', 400],
+  // ['Noto Sans TC', 500],
+  // ['Noto Sans TC', 700],
 ], (_, value) => {
   const observer = new FontFaceObserver(value[0], {
     weight: value[1],
@@ -18,9 +19,17 @@ const loadMin = () => toSeqPromise([
 });
 
 const loadAll = () => toSeqPromise([
+  ['Noto Sans TC', 400],
+  ['Noto Sans TC', 500],
+  ['Noto Sans TC', 700],
   ['Noto Sans SC', 400],
+  ['Noto Sans SC', 500],
   ['Noto Sans SC', 700],
+  ['Noto Sans JP', 400],
+  ['Noto Sans JP', 500],
+  ['Noto Sans JP', 700],
   ['Roboto', 400],
+  ['Roboto', 500],
   ['Roboto', 700],
 ], (_, value) => {
   const observer = new FontFaceObserver(value[0], {

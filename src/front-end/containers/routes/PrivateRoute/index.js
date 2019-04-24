@@ -2,7 +2,7 @@ import React from 'react';
 import EnhancedRoute from '~/components/routes/EnhancedRoute';
 import TryRedirect from './TryRedirect';
 
-class PrivateRoute extends React.Component {
+class PrivateRoute extends React.PureComponent {
   render() {
     const { component, ...rest } = this.props;
 

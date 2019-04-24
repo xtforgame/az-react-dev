@@ -1,10 +1,11 @@
-/* eslint-disable no-underscore-dangle, no-param-reassign */
+/* eslint-disable no-underscore-dangle, no-param-reassign, no-return-assign */
 import { compose } from 'redux';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { Map as ImmutableMap } from 'immutable';
 
 import { configureStore } from 'rrw-module';
 import RrwExEpic from 'rrw-module/extensions/epic';
+import createReduxWaitForMiddleware from 'redux-wait-for-action';
 
 import languageProviderReducer from '~/containers/LanguageProvider/reducer';
 
@@ -28,7 +29,11 @@ if (process.env.NODE_ENV === 'development') {
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
 
-export default (initialState, history) => configureStore(staticReducers, ImmutableMap(initialState), {
+let store = null;
+
+export const getStore = () => store;
+
+export default (initialState, history) => store = configureStore(staticReducers, ImmutableMap(initialState), {
   reducerOptions: {
     createRootReducer: (rootReducer => (state, action) => {
       if (action.type === LOGOUT) {
@@ -47,6 +52,6 @@ export default (initialState, history) => configureStore(staticReducers, Immutab
       },
     },
   ],
-  middlewares: [routerMiddleware(history), localStorageMiddleware],
+  middlewares: [routerMiddleware(history), localStorageMiddleware, createReduxWaitForMiddleware()],
   compose: composeEnhancers,
 });
