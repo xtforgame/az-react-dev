@@ -46,12 +46,12 @@ module.exports = function({ mode }) {
     resolve: {
       // extensions: ['', '.jsx', '.js', '.scss', '.css', '.json', '.md'],
       alias: webpackResolveAlias,
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.jsx', '.ts'],
     },
     module: {
       rules: [
         {
-          test: /\.(js|jsx)$/,
+          test: /\.(js|jsx|ts)$/,
           include: [
             path.resolve(projRoot, frontEndJsEntryFolder),
             path.resolve(projRoot, commonConfigJsEntryFolder),
@@ -60,15 +60,18 @@ module.exports = function({ mode }) {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-              presets: [['env', {
-                targets: {
-                  browsers: ['defaults', 'not dead'],
-                },
-              }], 'react'],
+              presets: [
+                ['@babel/preset-env', {
+                  targets: {
+                    browsers: ['defaults', 'not dead'],
+                  },
+                }],
+                '@babel/typescript',
+                '@babel/preset-react',
+              ],
               plugins: [
-                'transform-decorators-legacy',
-                'transform-class-properties',
-                'transform-object-rest-spread',
+                '@babel/proposal-class-properties',
+                '@babel/proposal-object-rest-spread',
               ],
             },
           }],
