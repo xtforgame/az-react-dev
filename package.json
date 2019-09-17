@@ -24,10 +24,10 @@
     "build-server": "cross-env NODE_ENV=production gulp server:build && cross-env NODE_ENV=production gulp server:build:extras",
     "start": "cross-env NODE_ENV=development gulp server:watch:dev",
     "debug": "cross-env NODE_ENV=development gulp server:watch:dev --inspect",
-    "test:server": "eslint --ext .js ./test/server && cross-env NODE_ENV=test mocha --require @babel/core/register './test/server/**/*.spec.js'",
-    "test-watch:server": "eslint --ext .js ./test/server && cross-env NODE_ENV=test mocha --watch ./test --watch-extensions js --require @babel/core/register './test/server/**/*.spec.js'",
-    "test:front-end": "eslint --ext .js ./test/front-end && cross-env NODE_ENV=test mocha --require ignore-styles --require @babel/core/register './test/front-end/**/*.spec.js'",
-    "test-watch:front-end": "eslint --ext .js ./test/front-end && cross-env NODE_ENV=test mocha --watch ./test --watch-extensions js --require ignore-styles --require @babel/core/register './test/front-end/**/*.spec.js'"
+    "test:server": "eslint --ext .js ./test/server && cross-env NODE_ENV=test mocha --require ./test/babel-register.js './test/server/**/*.spec.js'",
+    "test-watch:server": "eslint --ext .js ./test/server && cross-env NODE_ENV=test mocha --watch ./test --watch-extensions js,ts --require ./test/babel-register.js './test/server/**/*.spec.js'",
+    "test:front-end": "eslint --ext .js ./test/front-end && cross-env NODE_ENV=test mocha --require ignore-styles --require ./test/babel-register.js './test/front-end/**/*.spec.js'",
+    "test-watch:front-end": "eslint --ext .js ./test/front-end && cross-env NODE_ENV=test mocha --watch ./test --watch-extensions js,ts --require ignore-styles --require ./test/babel-register.js './test/front-end/**/*.spec.js'"
   },
   "license": "MIT",
   "engines": {
@@ -68,11 +68,14 @@
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
+    "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@babel/register": "^7.4.0",
+    "@types/node": "^12.7.5",
     "az-gulp-env-lite": "git+https://github.com/xtforgame/az-gulp-env-lite.git#v2.0.0-alpha.1",
     "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.5",
@@ -89,7 +92,6 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.9.1",
     "file-loader": "^2.0.0",
-    "gulp": "^4.0.1",
     "gulp-typescript": "^5.0.1",
     "html-webpack-plugin": "^3.2.0",
     "ignore-styles": "^5.0.1",

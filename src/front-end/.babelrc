@@ -8,7 +8,6 @@
     "@babel/typescript"
   ],
   "plugins": [
-    ["@babel/proposal-decorators", { "decoratorsBeforeExport": true }],
     "@babel/proposal-class-properties",
     "@babel/proposal-object-rest-spread"
   ],
@@ -18,12 +17,10 @@
         ["module-resolver", {
           "extensions": [".js", ".ts"],
           "alias": {
-            "~": "./src/test-data",
+            "~": "./src/front-end",
+            "common/config": "./src/common/configs/development",
             "common": "./src/common",
-            "server": "./src/server",
-            "common-config": "./src/common/configs/development",
-            "server-config": "./src/server/configs/development",
-            "test-utils": "./src/test-utils"
+            "config": "./src/front-end/configs/development"
           }
         }]
       ]
@@ -33,12 +30,10 @@
         ["module-resolver", {
           "extensions": [".js", ".ts"],
           "alias": {
-            "~": "./src/test-data",
+            "~": "./src/front-end",
+            "common/config": "./src/common/configs/production",
             "common": "./src/common",
-            "server": "./src/server",
-            "common-config": "./src/common/configs/production",
-            "server-config": "./src/server/configs/production",
-            "test-utils": "./src/test-utils"
+            "config": "./src/front-end/configs/production"
           }
         }]
       ]
@@ -48,12 +43,10 @@
         ["module-resolver", {
           "extensions": [".js", ".ts"],
           "alias": {
-            "~": "./src/test-data",
+            "~": "./src/front-end",
+            "common/config": "./src/common/configs/test",
             "common": "./src/common",
-            "server": "./src/server",
-            "common-config": "./src/common/configs/test",
-            "server-config": "./src/server/configs/test",
-            "test-utils": "./src/test-utils"
+            "config": "./src/front-end/configs/test"
           }
         }]
       ]

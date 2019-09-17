@@ -1,5 +1,5 @@
 import ServiceBase from '../ServiceBase';
-//= =======================================
+// ========================================
 import MainRouter from '~/routers/MainRouter';
 
 export default class RouterManager extends ServiceBase {
@@ -16,5 +16,8 @@ export default class RouterManager extends ServiceBase {
   }
 
   onStart() {
+  }
+
+  onDestroy() {
   }
 }
